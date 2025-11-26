@@ -1,0 +1,43 @@
+<header class="top-nav-admin">
+  <!-- Botón menú -->
+  <button class="menu-button" (click)="toggleSidebar()">
+    <span></span><span></span><span></span>
+  </button>
+
+  <!-- Texto centrado -->
+  <div class="title-center">
+    Panel Administrador DigitBus
+  </div>
+
+  <!-- Usuario + hora -->
+  <div class="nav-right">
+    <div class="user-meta">
+      <span class="user-name">{{ userName }}</span>
+      <span class="user-time">{{ currentTime | date:'shortTime' }}</span>
+    </div>
+    <div class="user-avatar">
+      <span>{{ userName[0] }}</span>
+    </div>
+  </div>
+</header>
+
+<!-- SIDEBAR -->
+<aside class="admin-sidebar" [class.open]="isSidebarOpen">
+  <div class="sidebar-header">
+    <span class="sidebar-title">Menú</span>
+  </div>
+
+  <nav class="sidebar-menu">
+    <a routerLink="/home" routerLinkActive="active-link" class="sidebar-item">Inicio </a>
+    <a routerLink="/usuarios" routerLinkActive="active-link" class="sidebar-item"> Administrar solicitudes</a>
+    <a routerLink="/admin/perfil-usuario" routerLinkActive="active-link" class="sidebar-item">Perfil de usuario</a>
+    <a routerLink="/solicitudes" routerLinkActive="active-link" class="sidebar-item"> Administrar solicitudes</a>
+    <a routerLink="/admin/datos-usuario" routerLinkActive="active-link" class="sidebar-item">Datos del usuario</a>
+    <a routerLink="/admin/administrativos" routerLinkActive="active-link" class="sidebar-item">Administradores</a>
+  </nav>
+
+  <!-- Botón salir -->
+  <div class="sidebar-footer">
+    <button class="logout-btn" (click)="logout()">Salir</button>
+  </div>
+</aside>

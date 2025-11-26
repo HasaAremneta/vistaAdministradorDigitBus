@@ -1,0 +1,51 @@
+<!-- NAV ADMIN ARRIBA -->
+<app-admin-navbar></app-admin-navbar>
+
+<!-- CONTENIDO ADMIN USUARIOS -->
+<div class="admin-usuarios-page">
+  <div class="card-usuarios">
+    <h2 class="titulo">Administración de usuarios</h2>
+
+    <!-- BUSCADOR -->
+    <div class="buscador">
+      <label>Buscar:</label>
+      <input
+        type="text"
+        placeholder="Buscar por ID o nombre"
+        [(ngModel)]="searchTerm"
+      />
+    </div>
+
+    <!-- TABLA -->
+    <div class="table-wrapper">
+      <table class="tabla">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre completo</th>
+            <th>Beneficio</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let u of usuariosFiltrados">
+            <td>{{ u.id }}</td>
+            <td>{{ u.nombre }}</td>
+            <td>{{ u.beneficio }}</td>
+            <td class="acciones">
+              <button class="btn-modificar" (click)="verPerfil(u.id)">Modificar</button>
+              <button class="btn-eliminar" (click)="eliminar(u.id)">Eliminar</button>
+            </td>
+          </tr>
+
+          <tr *ngIf="usuariosFiltrados.length === 0">
+            <td colspan="4" class="no-result">
+              No se encontraron usuarios.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

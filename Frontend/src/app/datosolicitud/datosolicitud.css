@@ -1,0 +1,248 @@
+/* ===== OVERLAY PRINCIPAL ===== */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+/* MODAL PRINCIPAL */
+.modal {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 20px 24px;
+  max-width: 640px;
+  width: 100%;
+  max-height: 80vh;
+  overflow: auto;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.35);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: #1f2937;
+}
+
+/* TÍTULO */
+h1 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* TARJETA */
+.card {
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  padding: 16px 20px;
+  margin-bottom: 32px;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  margin-bottom: 12px;
+}
+
+.tab-header {
+  display: inline-flex;
+  justify-content: space-between;
+  gap: 60px;
+  padding: 10px 20px;
+  border-radius: 999px;
+  border: 1px solid #2563eb;
+  background: #dbeafe;
+  color: #1e40af;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.card-body {
+  display: flex;
+  gap: 80px;
+  padding: 4px 8px;
+  font-size: 15px;
+  color: #1f2937;
+}
+
+.id {
+  min-width: 70px;
+}
+
+/* DOCUMENTOS */
+.docs-section h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #2563eb;
+  margin-bottom: 16px;
+}
+
+.doc-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  gap: 16px;
+}
+
+.doc-info {
+  font-size: 15px;
+}
+
+.doc-tipo {
+  font-weight: 500;
+  margin-right: 4px;
+  color: #374151;
+}
+
+.doc-link {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.doc-link:hover {
+  text-decoration: underline;
+}
+
+.btn-outline {
+  border-radius: 999px;
+  padding: 8px 16px;
+  border: 1px solid #f59e0b;
+  background: #fef3c7;
+  color: #92400e;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+
+/* Documento con cambios solicitados */
+.doc-pendiente {
+  border-color: #dc2626;
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+/* BOTONES FINALES */
+.footer {
+  margin-top: 32px;
+  text-align: right;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.btn-accept {
+  border-radius: 999px;
+  padding: 10px 24px;
+  border: 1px solid #16a34a;
+  background: #dcfce7;
+  color: #15803d;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-accept:hover {
+  background: #bbf7d0;
+}
+
+.btn-cancel {
+  border-radius: 999px;
+  padding: 10px 24px;
+  border: 1px solid #dc2626;
+  background: #fee2e2;
+  color: #b91c1c;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-cancel:hover {
+  background: #fecaca;
+}
+
+/* BOTÓN FLECHA */
+.flecha {
+  font-size: 16px;
+  cursor: pointer;
+  color: #6b7280;
+  background: none;
+  border: none;
+  padding: 8px 0;
+}
+
+.flecha:hover {
+  color: #374151;
+}
+
+/* ===== SUBMODAL GENERAL (OBSERVACIONES & RECHAZO) ===== */
+.overlay-obs {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.65);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 200; /* Más alto que el modal principal */
+}
+
+.modal-obs {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px 22px;
+  max-width: 480px;
+  width: 100%;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.4);
+}
+
+.modal-obs h3 {
+  margin: 0 0 6px 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.obs-subtitle {
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 10px;
+}
+
+.obs-textarea {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  padding: 8px 10px;
+  font-size: 14px;
+  resize: vertical;
+  min-height: 90px;
+  box-sizing: border-box;
+}
+
+.obs-actions {
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.btn-obs-cancel {
+  border-radius: 999px;
+  padding: 8px 16px;
+  border: 1px solid #9ca3af;
+  background: #f3f4f6;
+  color: #4b5563;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-obs-accept {
+  border-radius: 999px;
+  padding: 8px 16px;
+  border: 1px solid #2563eb;
+  background: #dbeafe;
+  color: #1d4ed8;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}

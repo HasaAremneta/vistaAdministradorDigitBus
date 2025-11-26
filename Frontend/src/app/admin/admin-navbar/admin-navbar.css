@@ -1,0 +1,142 @@
+/* NAV SUPERIOR */
+.top-nav-admin {
+  height: 60px;
+  background: #1e74ff;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  justify-content: space-between;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.25);
+  font-family: system-ui, sans-serif;
+}
+
+/* Botón hamburguesa */
+.menu-button {
+  width: 38px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.menu-button span {
+  height: 3px;
+  border-radius: 999px;
+  background: #ffffff;
+}
+
+/* Texto centrado */
+.title-center {
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-weight: 700;
+  font-size: 16px;
+  pointer-events: none;
+}
+
+/* Lado derecho */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-meta {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  font-size: 12px;
+}
+
+.user-name {
+  font-weight: 600;
+}
+
+.user-time {
+  opacity: 0.85;
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #0f172a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* SIDEBAR */
+.admin-sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 240px;
+  background: #0046b7;
+  color: #ffffff;
+  padding: 20px 16px;
+  transform: translateX(-100%);
+  transition: 0.2s ease-out;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: system-ui, sans-serif;
+}
+
+.admin-sidebar.open {
+  transform: translateX(0);
+}
+
+.sidebar-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sidebar-item {
+  color: #ffffff;
+  text-decoration: none;
+  padding: 8px 4px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.sidebar-item:hover,
+.sidebar-item.active-link {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* BOTÓN SALIR */
+.sidebar-footer {
+  margin-top: 24px;
+}
+
+.logout-btn {
+  width: 100%;
+  padding: 10px;
+  background: #c62828;
+  border: none;
+  border-radius: 6px;
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.logout-btn:hover {
+  background: #b71c1c;
+}

@@ -1,0 +1,107 @@
+/* Fondo general debajo del navbar */
+.admin-usuarios-page {
+  height: calc(100vh - 60px); /* 60px = alto del nav */
+  background: #e5f0ff;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 24px;
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* Tarjeta principal */
+.card-usuarios {
+  background: #ffffff;
+  padding: 20px 24px;
+  border-radius: 18px;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.15);
+  max-width: 920px;
+  width: 100%;
+}
+
+/* Título */
+.titulo {
+  font-size: 22px;
+  margin: 0 0 18px 0;
+  font-weight: 600;
+  color: #111827;
+}
+
+/* Buscador */
+.buscador {
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #374151;
+}
+
+.buscador input {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  min-width: 260px;
+}
+
+/* Tabla */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla th {
+  color: #1d4ed8;
+  font-weight: 600;
+  text-align: left;
+  padding: 10px 4px;
+  border-bottom: 1px solid #dbeafe;
+  font-size: 14px;
+}
+
+.tabla td {
+  padding: 8px 4px;
+  font-size: 14px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.acciones {
+  white-space: nowrap;
+}
+
+/* Botones */
+.btn-modificar,
+.btn-eliminar {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.btn-modificar {
+  color: #1d4ed8;
+  margin-right: 8px;
+}
+
+.btn-eliminar {
+  color: #dc2626;
+}
+
+.btn-modificar:hover,
+.btn-eliminar:hover {
+  text-decoration: underline;
+}
+
+/* Mensaje sin resultados */
+.no-result {
+  text-align: center;
+  color: #6b7280;
+  padding: 16px 0;
+}

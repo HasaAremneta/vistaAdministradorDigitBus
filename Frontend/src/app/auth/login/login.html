@@ -1,0 +1,47 @@
+<div class="page">
+  <!-- Barra superior -->
+  <header class="topbar">
+    <span>Panel administrativo</span>
+  </header>
+
+  <!-- Contenido centrado -->
+  <main class="content">
+    <div class="login-card">
+      <h2>Iniciar sesión</h2>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <!-- Usuario -->
+        <div class="form-group">
+          <label for="username">Nombre de usuario:</label>
+          <input
+            id="username"
+            type="text"
+            formControlName="username"
+            placeholder="Ingrese su usuario..."
+          />
+        </div>
+
+        <!-- Contraseña -->
+        <div class="form-group">
+          <label for="password">Contraseña:</label>
+          <input
+            id="password"
+            type="password"
+            formControlName="password"
+            placeholder="Contraseña..."
+          />
+        </div>
+
+        <!-- Botón -->
+        <button type="submit" [disabled]="loginForm.invalid">
+          Entrar
+        </button>
+
+        <!-- Error -->
+        <p *ngIf="errorMessage" class="error">
+          {{ errorMessage }}
+        </p>
+      </form>
+    </div>
+  </main>
+</div>
