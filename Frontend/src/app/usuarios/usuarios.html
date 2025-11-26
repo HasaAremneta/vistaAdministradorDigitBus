@@ -34,7 +34,7 @@
             <td>{{ u.nombre }}</td>
             <td>{{ u.beneficio }}</td>
             <td class="acciones">
-              <button class="btn-modificar" (click)="verPerfil(u.id)">Modificar</button>
+              <button class="btn-modificar" (click)="verPerfil(u)">Modificar</button>
               <button class="btn-eliminar" (click)="eliminar(u.id)">Eliminar</button>
             </td>
           </tr>
@@ -49,3 +49,10 @@
     </div>
   </div>
 </div>
+
+<!-- MODAL DE PERFIL DE USUARIO ADMIN -->
+<app-perfil-usuario-admin
+  *ngIf="mostrarPerfil && usuarioSeleccionado"
+  [usuario]="usuarioSeleccionado"
+  (cerrar)="cerrarPerfil()"
+></app-perfil-usuario-admin>

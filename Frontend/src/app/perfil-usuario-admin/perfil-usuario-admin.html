@@ -1,0 +1,96 @@
+<div class="overlay-perfil">
+  <div class="modal-perfil">
+    <button class="flecha" (click)="onCerrar()">← Regresar</button>
+
+    <h1>Perfil del usuario</h1>
+
+    <!-- DATOS DEL USUARIO -->
+    <section class="datos-section">
+
+      <div class="campo">
+        <label>ID usuario</label>
+        <input type="text" [(ngModel)]="usuario.id" disabled />
+      </div>
+
+      <div class="campo">
+        <label>Nombre completo</label>
+        <input type="text" [(ngModel)]="usuario.nombre" />
+      </div>
+
+      <div class="campo">
+        <label>Nombre de usuario</label>
+        <input type="text" [(ngModel)]="usuario.username" />
+      </div>
+
+      <div class="campo">
+        <label>Correo electrónico</label>
+        <input type="email" [(ngModel)]="usuario.email" />
+      </div>
+
+      <div class="campo">
+        <label>Teléfono</label>
+        <input type="tel" [(ngModel)]="usuario.telefono" />
+      </div>
+
+      <div class="campo">
+        <label>Beneficio</label>
+        <select [(ngModel)]="usuario.beneficio">
+          <option>Estudiante</option>
+          <option>Tercera edad</option>
+          <option>Discapacidad</option>
+          <option>Sin beneficio</option>
+        </select>
+      </div>
+
+    </section>
+
+    <!-- TARJETAS DEL USUARIO -->
+    <section class="tarjetas-section">
+      <h2>Tarjetas asociadas</h2>
+
+      <div class="tarjeta" *ngFor="let t of usuario.tarjetas">
+        <div class="tarjeta-info">
+          <div class="tarjeta-numero">{{ t.numero }}</div>
+          <div class="tarjeta-detalles">
+            <span>{{ t.tipo }}</span>
+            <span [ngClass]="{
+              'estado-activa': t.estado === 'Activa',
+              'estado-suspendida': t.estado === 'Suspendida'
+            }">
+              {{ t.estado }}
+            </span>
+            <span>Saldo: ${{ t.saldo }}</span>
+          </div>
+        </div>
+
+        <!-- Botones según el estado -->
+        <button class="btn-suspender" *ngIf="t.estado === 'Activa'">
+          Suspender
+        </button>
+        <button class="btn-reactivar" *ngIf="t.estado === 'Suspendida'">
+          Reactivar
+        </button>
+      </div>
+    </section>
+
+    <!-- CAMBIO DE CONTRASEÑA -->
+    <section class="password-section">
+      <h2>Contraseña</h2>
+      <p class="texto-ayuda">
+        Puedes generar una nueva contraseña para el usuario.
+      </p>
+
+      <div class="campo">
+        <label>Nueva contraseña</label>
+        <input type="password" placeholder="Escribe una nueva contraseña" />
+      </div>
+    </section>
+
+    <!-- BOTONES -->
+    <div class="footer-perfil">
+      <button class="btn-cancelar" (click)="onCerrar()">Cancelar</button>
+      <button class="btn-guardar" (click)="onGuardar()">Guardar cambios</button>
+    </div>
+
+  </div>
+</div>
