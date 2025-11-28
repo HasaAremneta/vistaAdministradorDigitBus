@@ -88,6 +88,14 @@ h2 {
   border-radius: 6px;
 }
 
+.status-rechazada {
+  color: #b91c1c;
+  font-weight: 500;
+  background-color: #fee2e2;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
 .accion {
   font-weight: 500;
 }

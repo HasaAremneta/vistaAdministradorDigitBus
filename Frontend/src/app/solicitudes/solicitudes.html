@@ -21,7 +21,7 @@
         </thead>
 
         <tbody>
-          <tr *ngFor="let r of reportes">
+          <tr *ngFor="let r of pagedReportes">
             <td class="col-id">{{ r.id }}</td>
             <td>{{ r.nombreUsuario }}</td>
             <td>{{ r.nombreCompleto }}</td>
@@ -30,8 +30,9 @@
             <td>
               <span
                 [ngClass]="{
-                  'status-revision': r.status === 'PENDIENTE' || r.status === 'Revisión',
-                  'status-concluida': r.status === 'Concluida'
+                  'status-revision': r.status === 'PENDIENTE' || r.status === 'Revisión' || r.status === 'Pendiente',
+                  'status-concluida': r.status === 'Concluida',
+                  'status-rechazada': r.status === 'Rechazada'
                 }"
               >
                 {{ r.status }}
@@ -43,6 +44,15 @@
         </tbody>
       </table>
     </div>
+
+    <div class="paginacion" style="margin-top:12px; display:flex; align-items:center; gap:8px;">
+      <button (click)="prevPage()" [disabled]="currentPage === 1">Prev</button>
+      <span>Pagina {{ currentPage }} de {{ totalPages }}</span>
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+      <div style="margin-left:auto;">
+        <label style="font-size:0.9em; color:#666;">Mostrar por página: {{ pageSize }}</label>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -51,4 +61,6 @@
   *ngIf="mostrarDetalle"
   [reporte]="reporteSeleccionado"
   (cerrar)="cerrarDetalle()"
+  (aceptar)="onAceptarSolicitud()"
+  (rechazar)="onRechazarSolicitud()"
 ></app-datosolicitud>

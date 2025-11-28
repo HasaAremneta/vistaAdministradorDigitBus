@@ -11,7 +11,7 @@ def home():
     return "API de autenticación con Flask y SQL Server"
 
 # ------------------------------------
-#  Endpoint para registrar usuario
+#  Endpoint para usuarios
 # ------------------------------------
 @app.post('/register')
 def register():
@@ -45,6 +45,119 @@ def register():
         cursor.close()
         conn.close()
 
+
+@app.get('/users')
+def get_users():
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("SELECT IDUSUARIOS, NOMBREUSUARIO FROM USUARIOS WHERE IS_ADMIN = 0")
+        rows_fetched = cursor.fetchall()
+
+        if not rows_fetched:
+            return jsonify({"error": "No hay usuarios registrados"}), 404
+
+        # Obtener nombres de columnas
+        columns = [col[0] for col in cursor.description]
+
+        # Convertir a lista de diccionarios
+        rows = [dict(zip(columns, row)) for row in rows_fetched]
+
+        return jsonify(rows), 200
+
+    except Exception as e:
+        return jsonify({"error": "Error al obtener usuarios", "details": str(e)}), 500
+
+    finally:
+        cursor.close()
+        conn.close()
+
+
+
+@app.get('/users/<string:name>')
+def get_user(name): 
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("SELECT * FROM PERSONAL WHERE NOMBREUSUARIO = ?", (name,))
+        row = cursor.fetchone()
+
+        if not row:
+            return jsonify({"error": "Usuario no encontrado"}), 404
+
+        # Obtener nombres de columnas
+        columns = [col[0] for col in cursor.description]
+
+        # Convertir a diccionario
+        user = dict(zip(columns, row))
+
+        return jsonify(user), 200
+
+    except Exception as e:
+        return jsonify({"error": "Error al obtener usuario", "details": str(e)}), 500
+
+    finally:
+        cursor.close()
+        conn.close()
+
+
+@app.get('/users/tarjetas')
+def get_user_tarjetas():
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("SELECT * FROM TARJETAS T INNER JOIN PERSONAL P ON P.IDPERSONAL = T.IDPERSONAL")
+        rows_fetched = cursor.fetchall()
+
+        if not rows_fetched:
+            return jsonify({"error": "No hay tarjetas "}), 404
+
+        # Obtener nombres de columnas
+        columns = [col[0] for col in cursor.description]
+
+        # Convertir a lista de diccionarios
+        rows = [dict(zip(columns, row)) for row in rows_fetched]
+
+        return jsonify(rows), 200
+
+    except Exception as e:
+        return jsonify({"error": "Error al obtener tarjetas", "details": str(e)}), 500
+
+    finally:
+        cursor.close()
+        conn.close()
+
+
+
+@app.get('/users/tarjetas/<int:user_id>')
+def get_user_tarjetasu(user_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("SELECT * FROM TARJETAS WHERE IDPERSONAL = ?", (user_id,))
+        rows_fetched = cursor.fetchall()
+
+        if not rows_fetched:
+            return jsonify({"error": "No hay tarjetas asociadas a este usuario"}), 404
+
+        # Obtener nombres de columnas
+        columns = [col[0] for col in cursor.description]
+
+        # Convertir a lista de diccionarios
+        rows = [dict(zip(columns, row)) for row in rows_fetched]
+
+        return jsonify(rows), 200
+
+    except Exception as e:
+        return jsonify({"error": "Error al obtener tarjetas", "details": str(e)}), 500
+
+    finally:
+        cursor.close()
+        conn.close()
 # ------------------------------------
 #  Endpoint de login
 # ------------------------------------
@@ -92,7 +205,7 @@ def login():
 
 
 # ------------------------------------
-#  Ejecutar servidor
+#  Endpoints Soliocitudes
 # ------------------------------------
 @app.get('/solicitudes')
 def solicitudes():
@@ -122,6 +235,73 @@ def solicitudes():
         cursor.close()
         conn.close()
 
+@app.delete('/solicitudes/<int:solicitud_id>')
+def delete_solicitud(solicitud_id):
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+
+        # Ejecutar la consulta de eliminación
+        cursor.execute("DELETE FROM SOLICITUDES WHERE IDSOLICITUD = ?", (solicitud_id,))
+        conn.commit()
+
+        if cursor.rowcount == 0:
+            return jsonify({"error": "Solicitud no encontrada"}), 404
+
+        return jsonify({"message": "Solicitud eliminada correctamente"}), 200
+
+    except Exception as e:
+        return jsonify({"error": "Error al eliminar solicitud", "details": str(e)}), 500
+
+    finally:
+        cursor.close()
+        conn.close()
+
+@app.put('/solicitudes/<int:solicitud_id>/aprobar')
+def aprobar_solicitud(solicitud_id):
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+
+        # Actualizar el estado de la solicitud a 'Aprobada'
+        cursor.execute("UPDATE SOLICITUDES SET STATUS = 'Concluida' WHERE IDSOLICITUD = ?", (solicitud_id,))
+        conn.commit()
+
+        if cursor.rowcount == 0:
+            return jsonify({"error": "Solicitud no encontrada"}), 404
+
+        return jsonify({"message": "Solicitud aprobada correctamente"}), 200
+
+    except Exception as e:
+        return jsonify({"error": "Error al aprobar solicitud", "details": str(e)}), 500
+
+    finally:
+        cursor.close()
+        conn.close()
+
+
+
+@app.put('/solicitudes/<int:solicitud_id>/rechazar')
+def rechazar_solicitud(solicitud_id):
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+
+        # Actualizar el estado de la solicitud a 'Rechazada'
+        cursor.execute("UPDATE SOLICITUDES SET STATUS = 'Rechazada' WHERE IDSOLICITUD = ?", (solicitud_id,))
+        conn.commit()
+
+        if cursor.rowcount == 0:
+            return jsonify({"error": "Solicitud no encontrada"}), 404
+
+        return jsonify({"message": "Solicitud aprobada correctamente"}), 200
+
+    except Exception as e:
+        return jsonify({"error": "Error al aprobar solicitud", "details": str(e)}), 500
+
+    finally:
+        cursor.close()
+        conn.close()
 
 # ------------------------------------
 #  Ejecutar servidor

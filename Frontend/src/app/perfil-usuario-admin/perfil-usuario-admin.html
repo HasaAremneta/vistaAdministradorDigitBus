@@ -13,8 +13,18 @@
       </div>
 
       <div class="campo">
-        <label>Nombre completo</label>
+        <label>Nombre</label>
         <input type="text" [(ngModel)]="usuario.nombre" />
+      </div>
+
+      <div class="campo">
+        <label>Apellido Paterno</label>
+        <input type="text" [(ngModel)]="usuario.apellidoPaterno" />
+      </div>
+
+      <div class="campo">
+        <label>Apellido Materno</label>
+        <input type="text" [(ngModel)]="usuario.apellidoMaterno" />
       </div>
 
       <div class="campo">
@@ -27,12 +37,8 @@
         <input type="email" [(ngModel)]="usuario.email" />
       </div>
 
-      <div class="campo">
-        <label>Teléfono</label>
-        <input type="tel" [(ngModel)]="usuario.telefono" />
-      </div>
 
-      <div class="campo">
+      <!-- <div class="campo">
         <label>Beneficio</label>
         <select [(ngModel)]="usuario.beneficio">
           <option>Estudiante</option>
@@ -40,38 +46,11 @@
           <option>Discapacidad</option>
           <option>Sin beneficio</option>
         </select>
-      </div>
+      </div> -->
 
     </section>
 
-    <!-- TARJETAS DEL USUARIO -->
-    <section class="tarjetas-section">
-      <h2>Tarjetas asociadas</h2>
-
-      <div class="tarjeta" *ngFor="let t of usuario.tarjetas">
-        <div class="tarjeta-info">
-          <div class="tarjeta-numero">{{ t.numero }}</div>
-          <div class="tarjeta-detalles">
-            <span>{{ t.tipo }}</span>
-            <span [ngClass]="{
-              'estado-activa': t.estado === 'Activa',
-              'estado-suspendida': t.estado === 'Suspendida'
-            }">
-              {{ t.estado }}
-            </span>
-            <span>Saldo: ${{ t.saldo }}</span>
-          </div>
-        </div>
-
-        <!-- Botones según el estado -->
-        <button class="btn-suspender" *ngIf="t.estado === 'Activa'">
-          Suspender
-        </button>
-        <button class="btn-reactivar" *ngIf="t.estado === 'Suspendida'">
-          Reactivar
-        </button>
-      </div>
-    </section>
+    <!-- Tarjetas retiradas del modal: gestionadas en módulo separado -->
 
     <!-- CAMBIO DE CONTRASEÑA -->
     <section class="password-section">

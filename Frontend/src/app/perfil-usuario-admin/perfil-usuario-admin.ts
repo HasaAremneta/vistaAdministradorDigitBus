@@ -13,6 +13,8 @@ interface TarjetaUsuario {
 interface Usuario {
   id: string;
   nombre: string;
+  apellidoPaterno?: string;
+  apellidoMaterno?: string;
   beneficio: string;
   email: string;
   telefono: string;
