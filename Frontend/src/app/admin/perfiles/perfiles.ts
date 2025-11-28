@@ -74,6 +74,51 @@ export class Perfiles implements OnInit {
     this.mostrarModal = true;
   }
 
+  desactivarTarjeta(idTarjeta: string) {
+    const url = `http://127.0.0.1:5000/users/tarjeta/${idTarjeta}/deactivate`;
+    this.http.put(url, {}).subscribe({
+      next: () => {
+        console.log('Tarjeta desactivada:', idTarjeta);
+        // Actualizar el status en la lista local
+        if (this.tarjetaSeleccionada) {
+          this.tarjetaSeleccionada.status = 'inactiva';
+        }
+        // Actualizar en el arreglo de tarjetas
+        const tarjeta = this.tarjetas.find(t => t.idTarjeta === idTarjeta);
+        if (tarjeta) {
+          tarjeta.status = 'inactiva';
+        }
+        this.cdr.markForCheck();
+      },
+      error: (err) => {
+        console.error('Error al desactivar tarjeta:', err);
+      }
+    });
+  }
+
+  
+  reactivarTarjeta(idTarjeta: string) {
+    const url = `http://127.0.0.1:5000/users/tarjeta/${idTarjeta}/activate`;
+    this.http.put(url, {}).subscribe({
+      next: () => {
+        console.log('Tarjeta reactivada:', idTarjeta);
+        // Actualizar el status en la lista local
+        if (this.tarjetaSeleccionada) {
+          this.tarjetaSeleccionada.status = 'activa';
+        }
+        // Actualizar en el arreglo de tarjetas
+        const tarjeta = this.tarjetas.find(t => t.idTarjeta === idTarjeta);
+        if (tarjeta) {
+          tarjeta.status = 'activa';
+        }
+        this.cdr.markForCheck();
+      },
+      error: (err) => {
+        console.error('Error al reactivar tarjeta:', err);
+      }
+    });
+  }
+
   cerrarModal() {
     this.mostrarModal = false;
     this.tarjetaSeleccionada = null;

@@ -158,6 +158,50 @@ def get_user_tarjetasu(user_id):
     finally:
         cursor.close()
         conn.close()
+
+
+@app.put('/users/tarjeta/<int:card_id>/deactivate')
+def deactivate_card(card_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("UPDATE TARJETAS SET STATUS = 'Inactiva' WHERE IDTARJETA = ?", (card_id,))
+        conn.commit()
+
+        if cursor.rowcount == 0:
+            return jsonify({"error": "Tarjeta no encontrada"}), 404
+
+        return jsonify({"message": "Tarjeta desactivada correctamente"}), 200
+
+    except Exception as e:
+        return jsonify({"error": "Error al desactivar tarjeta", "details": str(e)}), 500
+
+    finally:
+        cursor.close()
+        conn.close()
+
+
+@app.put('/users/tarjeta/<int:card_id>/activate')
+def activate_card(card_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("UPDATE TARJETAS SET STATUS = 'activa' WHERE IDTARJETA = ?", (card_id,))
+        conn.commit()
+
+        if cursor.rowcount == 0:
+            return jsonify({"error": "Tarjeta no encontrada"}), 404
+
+        return jsonify({"message": "Tarjeta activada correctamente"}), 200
+
+    except Exception as e:
+        return jsonify({"error": "Error al activar tarjeta", "details": str(e)}), 500
+
+    finally:
+        cursor.close()
+        conn.close()
 # ------------------------------------
 #  Endpoint de login
 # ------------------------------------
