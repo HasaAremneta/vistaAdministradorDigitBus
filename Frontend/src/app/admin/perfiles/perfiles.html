@@ -65,8 +65,8 @@
       <p><strong>Fecha vencimiento:</strong> {{ tarjetaSeleccionada?.fechaVencimiento }}</p>
 
       <div class="acciones-beneficio">
-        <button class="btn-azul" *ngIf="tarjetaSeleccionada?.status === 'ACTIVA' || tarjetaSeleccionada?.status === 'Activa'" (click)="desactivarTarjeta(tarjetaSeleccionada?.idTarjeta || '')">Suspender tarjeta</button>
-        <button class="btn-amarillo" *ngIf="tarjetaSeleccionada?.status !== 'ACTIVA' && tarjetaSeleccionada?.status !== 'Activa'" (click)="reactivarTarjeta(tarjetaSeleccionada?.idTarjeta || '')">Reactivar tarjeta</button>
+        <button class="btn-azul" *ngIf="tarjetaSeleccionada?.status === 'ACTIVA' || tarjetaSeleccionada?.status === 'activa'" (click)="desactivarTarjeta(tarjetaSeleccionada?.idTarjeta || '')">Suspender tarjeta</button>
+        <button class="btn-amarillo" *ngIf="tarjetaSeleccionada?.status !== 'ACTIVA' && tarjetaSeleccionada?.status !== 'activa'" (click)="reactivarTarjeta(tarjetaSeleccionada?.idTarjeta || '')">Reactivar tarjeta</button>
       </div>
 
     </div>
