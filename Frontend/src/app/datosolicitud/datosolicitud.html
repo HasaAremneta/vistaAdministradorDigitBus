@@ -1,93 +1,43 @@
-<!-- OVERLAY PRINCIPAL -->
-<div class="overlay">
-  <div class="modal">
+<div class="modal-datosolicitud" *ngIf="reporte">
+  <h3>Detalle de solicitud</h3>
+  
+  <p><strong>ID Solicitud:</strong> {{ reporte.IDSOLICITUD }}</p>
+  <p><strong>Usuario:</strong> {{ reporte.NOMBREUSUARIO }}</p>
+  <p><strong>Nombre completo:</strong> {{ reporte.NOMBRE }} {{ reporte.APELLIDOPATERNO }} {{ reporte.APELLIDOMATERNO }}</p>
+  <p><strong>Status:</strong> {{ reporte.STATUS }}</p>
+  <p><strong>Tipo de solicitud:</strong> {{ reporte.TIPOSOLICITUD }}</p>
+  <p><strong>Tipo de tableta:</strong> {{ reporte.TIPOTABLETA }}</p>
+  <p><strong>Referencia de pago:</strong> {{ reporte.REFPAGO }}</p>
+  <p><strong>Fecha de solicitud:</strong> {{ reporte.FECHASOLICITUD }}</p>
 
-    <!-- Regresar -->
-    <button class="flecha" (click)="regresar()">← Regresar</button>
+  <h4>Documentos adjuntos</h4>
+  <ul>
+    <li *ngFor="let doc of documentos">
+      {{ doc.tipo }}:
+      <a [href]="doc.url" target="_blank">{{ doc.nombreArchivo }}</a>
+      <button (click)="abrirObservaciones(doc)">Agregar Observaciones</button>
+    </li>
+  </ul>
 
-    <h1>Revisión de solicitud</h1>
-
-    <!-- Datos -->
-    <section class="card">
-      <div class="card-header">
-        <button class="tab-header">
-          <span>ID</span>
-          <span>Nombre de usuario</span>
-        </button>
-      </div>
-      <div class="card-body">
-        <span class="id">{{ solicitudId }}</span>
-        <span class="nombre">{{ nombreUsuario }}</span>
-      </div>
-    </section>
-
-    <!-- Documentos -->
-    <section class="docs-section">
-      <h2>Documentación</h2>
-
-      <div class="doc-row" *ngFor="let doc of documentos">
-        <div class="doc-info">
-          <span class="doc-tipo">{{ doc.tipo }}:</span>
-          <a [href]="doc.url" class="doc-link">{{ doc.nombreArchivo }}</a>
-        </div>
-
-        <button
-          class="btn-outline"
-          [ngClass]="{ 'doc-pendiente': doc.requiereCambio }"
-          (click)="abrirObservaciones(doc)"
-        >
-          Solicitar cambio/subida del doc.
-        </button>
-      </div>
-    </section>
-
-    <!-- Botones finales -->
-    <div class="footer">
-      <button class="btn-cancel" (click)="abrirRechazo()">
-        Rechazar solicitud
-      </button>
-
-      <button class="btn-accept" (click)="aceptarSolicitud()">
-        Aceptar solicitud
-      </button>
-    </div>
+  <div class="acciones-modal">
+    <button (click)="aceptarSolicitud()">Aceptar</button>
+    <button (click)="abrirRechazo()">Rechazar</button>
+    <button (click)="regresar()">Cerrar</button>
   </div>
-</div>
 
-<!-- SUBMODAL: OBSERVACIONES DE DOCUMENTO -->
-<div class="overlay-obs" *ngIf="mostrarObsModal">
-  <div class="modal-obs">
-    <h3>Observaciones sobre {{ docSeleccionado?.tipo }}</h3>
-    <p class="obs-subtitle">Escribe las observaciones para que el usuario suba o corrija el documento.</p>
-
-    <textarea
-      [(ngModel)]="observacionesTemp"
-      class="obs-textarea"
-      placeholder="Ej. El documento está borroso, por favor sube una foto más clara..."
-    ></textarea>
-
-    <div class="obs-actions">
-      <button class="btn-obs-cancel" (click)="cerrarObservaciones()">Cancelar</button>
-      <button class="btn-obs-accept" (click)="confirmarObservaciones()">Aceptar</button>
-    </div>
+  <!-- Submodal de observaciones -->
+  <div class="modal-observaciones" *ngIf="mostrarObsModal">
+    <h4>Observaciones para {{ docSeleccionado?.tipo }}</h4>
+    <textarea [(ngModel)]="observacionesTemp"></textarea>
+    <button (click)="confirmarObservaciones()">Guardar</button>
+    <button (click)="cerrarObservaciones()">Cancelar</button>
   </div>
-</div>
 
-<!-- SUBMODAL: RECHAZAR SOLICITUD -->
-<div class="overlay-obs" *ngIf="mostrarRechazoModal">
-  <div class="modal-obs">
-    <h3>Motivo del rechazo</h3>
-    <p class="obs-subtitle">Escribe por qué esta solicitud debe ser rechazada.</p>
-
-    <textarea
-      [(ngModel)]="motivoRechazo"
-      class="obs-textarea"
-      placeholder="Ej. Documentación incompleta..."
-    ></textarea>
-
-    <div class="obs-actions">
-      <button class="btn-obs-cancel" (click)="cerrarRechazo()">Cancelar</button>
-      <button class="btn-obs-accept" (click)="confirmarRechazo()">Rechazar</button>
-    </div>
+  <!-- Submodal de rechazo -->
+  <div class="modal-rechazo" *ngIf="mostrarRechazoModal">
+    <h4>Motivo de rechazo</h4>
+    <textarea [(ngModel)]="motivoRechazo"></textarea>
+    <button (click)="confirmarRechazo()">Confirmar</button>
+    <button (click)="cerrarRechazo()">Cancelar</button>
   </div>
 </div>

@@ -13,7 +13,7 @@ export class AdminNavbar implements OnDestroy {
 
   isSidebarOpen = false;
   currentTime: Date = new Date();
-  userName: string = 'Administrador'; // luego esto puede venir del login/backend
+  userName: string = localStorage.getItem('username') || 'Administrador'; // luego esto puede venir del login/backend
 
   private timerId: any;
 

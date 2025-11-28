@@ -12,6 +12,8 @@
           <tr class="columnaTitulos">
             <th>ID</th>
             <th>Nombre de usuario</th>
+            <th>Nombre completo</th>
+            <th>Correo</th>
             <th>Motivo</th>
             <th>Status</th>
             <th colspan="2">Acción</th>
@@ -21,12 +23,14 @@
         <tbody>
           <tr *ngFor="let r of reportes">
             <td class="col-id">{{ r.id }}</td>
-            <td>{{ r.usuario }}</td>
+            <td>{{ r.nombreUsuario }}</td>
+            <td>{{ r.nombreCompleto }}</td>
+            <td>{{ r.correo }}</td>
             <td class="link-azul">{{ r.tipo }}</td>
             <td>
               <span
                 [ngClass]="{
-                  'status-revision': r.status === 'Revisión',
+                  'status-revision': r.status === 'PENDIENTE' || r.status === 'Revisión',
                   'status-concluida': r.status === 'Concluida'
                 }"
               >
@@ -45,5 +49,6 @@
 <!-- MODAL ENCIMA: solo se muestra cuando mostrarDetalle = true -->
 <app-datosolicitud
   *ngIf="mostrarDetalle"
+  [reporte]="reporteSeleccionado"
   (cerrar)="cerrarDetalle()"
 ></app-datosolicitud>
