@@ -1,0 +1,61 @@
+<!-- NAV ADMIN -->
+<app-admin-navbar></app-admin-navbar>
+
+<!-- CONTENIDO PRINCIPAL -->
+<div class="admin-page">
+  <div class="card-admins">
+    <div class="card-header">
+      <h2 class="titulo">Administradores del sistema</h2>
+
+      <button class="btn-agregar" (click)="abrirModal()">
+        + Agregar administrador
+      </button>
+    </div>
+
+    <!-- BUSCADOR -->
+    <div class="buscador">
+      <label>Buscar:</label>
+      <input
+        type="text"
+        placeholder="Buscar por ID, nombre o usuario"
+        [(ngModel)]="searchTerm"
+      />
+    </div>
+
+    <!-- TABLA -->
+    <div class="table-wrapper">
+      <table class="tabla">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre completo</th>
+            <th>Usuario</th>
+            <th>Fecha de alta</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let a of administradoresFiltrados">
+            <td class="link-id">{{ a.id }}</td>
+            <td>{{ a.nombre }}</td>
+            <td>{{ a.username }}</td>
+            <td>{{ a.creadoEl }}</td>
+          </tr>
+
+          <tr *ngIf="administradoresFiltrados.length === 0">
+            <td colspan="4" class="no-result">
+              No se encontraron administradores.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL FORMULARIO PARA NUEVO ADMIN -->
+<app-admin-form-modal
+  *ngIf="mostrarModal"
+  (cerrar)="cerrarModal()"
+  (guardar)="guardarAdmin($event)"
+></app-admin-form-modal>

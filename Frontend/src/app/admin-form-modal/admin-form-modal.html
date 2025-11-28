@@ -1,0 +1,31 @@
+<p>admin-form-modal works!</p>
+<div class="overlay-modal">
+  <div class="modal">
+    <button class="flecha" (click)="onCerrar()">← Cerrar</button>
+
+    <h2>Nuevo administrador</h2>
+    <p class="texto-ayuda">
+      Completa los datos del nuevo administrador. El usuario se usará para iniciar sesión.
+    </p>
+
+    <div class="campo">
+      <label>Nombre completo (opcional)</label>
+      <input type="text" [(ngModel)]="nombre" placeholder="Ej. Juan Pérez" />
+    </div>
+
+    <div class="campo">
+      <label>Nombre de usuario *</label>
+      <input type="text" [(ngModel)]="username" placeholder="Ej. admin_jperez" />
+    </div>
+
+    <div class="campo">
+      <label>Contraseña *</label>
+      <input type="password" [(ngModel)]="password" placeholder="Contraseña asignada por el sistema" />
+    </div>
+
+    <div class="footer">
+      <button class="btn-cancelar" (click)="onCerrar()">Cancelar</button>
+      <button class="btn-guardar" (click)="onGuardar()">Guardar</button>
+    </div>
+  </div>
+</div>

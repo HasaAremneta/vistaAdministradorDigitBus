@@ -1,0 +1,73 @@
+<!-- NAVBAR -->
+<app-admin-navbar></app-admin-navbar>
+
+<!-- CONTENIDO -->
+<div class="admin-perfiles-page">
+  <div class="card-perfiles">
+
+    <!-- BUSCADOR -->
+    <div class="buscador">
+      <span>Buscar:</span>
+      <input type="text" placeholder="Buscar por ID o nombre" />
+    </div>
+
+    <!-- TABLA -->
+    <div class="tabla-wrapper">
+      <table class="tabla-perfiles">
+        <thead>
+          <tr class="columnaTitulos">
+            <th>ID</th>
+            <th>Nombre completo</th>
+            <th>Beneficio</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let u of usuarios">
+            <td class="col-id">{{ u.id }}</td>
+            <td>{{ u.nombre }}</td>
+            <td>{{ u.beneficio }}</td>
+            <td class="link-azul accion" (click)="verUsuario(u)">Ver</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- MODAL – SOLO SE MUESTRA SI mostrarModal ES TRUE -->
+  <div class="modal-bg" *ngIf="mostrarModal">
+    <div class="modal-card">
+      <button class="cerrar" (click)="cerrarModal()">Cerrar</button>
+
+      <h3>Perfil del usuario</h3>
+
+      
+
+      <p><strong>ID:</strong> {{ usuarioSeleccionado?.id }}</p>
+      <p><strong>Nombre:</strong> {{ usuarioSeleccionado?.nombre }}</p>
+      <p><strong>Beneficio:</strong> {{ usuarioSeleccionado?.beneficio }}</p>
+
+      
+
+      <div class="foto">FOTO</div>
+
+      <div class="acciones-beneficio">
+
+    <button class="btn-azul">Modificar beneficio</button>
+
+    <button class="btn-azul">Ver historial</button>
+
+    <button class="btn-amarillo">Suspender beneficio</button>
+
+    <!-- SOLO mostrar si el beneficio es Estudiante -->
+    <p class="fecha-vencimiento" *ngIf="usuarioSeleccionado?.beneficio === 'Estudiante'">
+        <strong>Fecha de vencimiento:</strong> 22/10/2025
+    </p>
+
+</div>
+
+    </div>
+    
+  </div>
+</div>

@@ -1,0 +1,163 @@
+/* Fondo general */
+.admin-perfiles-page {
+  height: calc(100vh - 60px);
+  background: #e5efff;
+  display: flex;
+  justify-content: center;
+  padding-top: 40px;
+  box-sizing: border-box;
+}
+
+/* Tarjeta */
+.card-perfiles {
+  background: #fff;
+  padding: 20px;
+  width: 900px;
+  box-shadow: 0px 10px 40px rgba(15, 23, 42, 0.15);
+  border-radius: 15px;
+}
+
+/* Título */
+.titulo {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #111827;
+}
+
+/* Buscador */
+.buscador {
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.buscador input {
+  padding: 6px 10px;
+  width: 250px;
+  border: 2px solid #2563eb;
+  border-radius: 8px;
+}
+
+/* Tabla */
+.tabla-wrapper {
+  overflow-x: auto;
+}
+
+.tabla-perfiles {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 700px;
+}
+
+.columnaTitulos th {
+  font-weight: 600;
+  color: #1d4ed8;
+  padding: 10px;
+  background: #f0f9ff;
+  border-bottom: 2px solid #2563eb;
+}
+
+td {
+  padding: 10px;
+  border-bottom: 1px solid #d1d5db;
+}
+
+.col-id {
+  font-weight: 600;
+  color: #2563eb;
+}
+
+.link-azul {
+  color: #2563eb;
+  cursor: pointer;
+}
+
+.link-azul:hover {
+  text-decoration: underline;
+}
+
+/* Modal */
+.modal-bg {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-card {
+  background: white;
+  padding: 25px;
+  width: 450px;
+  border-radius: 15px;
+  box-shadow: 0px 20px 50px rgba(0,0,0,0.2);
+}
+
+.cerrar {
+  background: #e11d48;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.cerrar:hover {
+  background: #be123c;
+}
+
+.foto {
+  width: 120px;
+  height: 160px;
+  border: 2px solid #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  margin-top: 15px;
+}
+
+.acciones-beneficio {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.btn-azul {
+    width: 180px;
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: 1px solid #005dff;
+    background-color: white;
+    color: #005dff;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.btn-azul:hover {
+    background-color: #005dff;
+    color: white;
+}
+
+.btn-amarillo {
+    width: 180px;
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: 1px solid #f4b400;
+    background-color: white;
+    color: #f4b400;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.btn-amarillo:hover {
+    background-color: #f4b400;
+    color: white;
+}
+
+.fecha-vencimiento {
+    margin-top: 10px;
+    font-size: 14px;
+}

@@ -1,0 +1,101 @@
+.admin-page {
+  height: calc(100vh - 60px);
+  background: #e5f0ff;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 24px;
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.card-admins {
+  background: #ffffff;
+  padding: 20px 24px;
+  border-radius: 18px;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.15);
+  max-width: 920px;
+  width: 100%;
+}
+
+/* Header (título + botón agregar) */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.titulo {
+  font-size: 22px;
+  font-weight: 600;
+  margin: 0;
+  color: #111827;
+}
+
+.btn-agregar {
+  border-radius: 999px;
+  padding: 8px 16px;
+  border: 1px solid #1d4ed8;
+  background: #e0ecff;
+  color: #1d4ed8;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* Buscador */
+.buscador {
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #374151;
+}
+
+.buscador input {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  min-width: 260px;
+}
+
+/* Tabla */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla th {
+  color: #1d4ed8;
+  font-weight: 600;
+  text-align: left;
+  padding: 10px 4px;
+  border-bottom: 2px solid #1d4ed8;
+  font-size: 14px;
+  background: #eff6ff;
+}
+
+.tabla td {
+  padding: 8px 4px;
+  font-size: 14px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.link-id {
+  color: #1d4ed8;
+  font-weight: 600;
+}
+
+/* Sin resultados */
+.no-result {
+  text-align: center;
+  color: #6b7280;
+  padding: 16px 0;
+}
