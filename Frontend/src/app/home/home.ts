@@ -10,6 +10,5 @@ import { AdminNavbar } from "../admin/admin-navbar/admin-navbar";
   styleUrl: './home.css',
 })
 export class Home{
-  
-  userName: string = localStorage.getItem('username') || 'Administrador'; //cambiarlo a lo del backend
+  userName: string = localStorage.getItem('username') || 'Administrador';
 }

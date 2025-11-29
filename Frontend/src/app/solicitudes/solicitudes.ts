@@ -123,7 +123,7 @@ export class Solicitudes implements OnInit {
     this.http.delete(url).subscribe({
       next: () => {
         this.reportes = this.reportes.filter(r => r.id !== reporte.id);
-        // Ajustar la página actual si ya no hay suficientes ítems
+        
         if (this.currentPage > this.totalPages) {
           this.currentPage = this.totalPages;
         }

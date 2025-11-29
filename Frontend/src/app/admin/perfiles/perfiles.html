@@ -8,7 +8,11 @@
     <!-- BUSCADOR -->
     <div class="buscador">
       <span>Buscar:</span>
-      <input type="text" placeholder="Buscar por ID de tarjeta o número" />
+      <input 
+        type="text" 
+        placeholder="Buscar por ID de tarjeta o número"
+        [(ngModel)]="searchTerm"
+      />
     </div>
 
     <!-- TABLA DE TARJETAS -->
@@ -27,23 +31,31 @@
         </thead>
 
         <tbody>
-          <tr *ngFor="let t of tarjetas">
+          <tr *ngFor="let t of tarjetasFiltradas">
             <td class="col-id">{{ t.idTarjeta }}</td>
             <td>{{ t.numTarjeta }}</td>
             <td>{{ t.nombreUsuario }}</td>
             <td>{{ t.tipo }}</td>
             <td>
-              <span [ngClass]="{ 'status-activa': (t.status | lowercase) === 'activa', 'status-inactiva': (t.status | lowercase) !== 'activa' }">{{ t.status }}</span>
+              <span 
+                [ngClass]="{
+                  'status-activa': (t.status | lowercase) === 'activa',
+                  'status-inactiva': (t.status | lowercase) !== 'activa'
+                }"
+              >
+                {{ t.status }}
+              </span>
             </td>
             <td>${{ t.saldo }}</td>
             <td class="link-azul accion" (click)="verTarjeta(t)">Ver</td>
           </tr>
+
         </tbody>
       </table>
     </div>
   </div>
 
-  <!-- MODAL – SOLO SE MUESTRA SI mostrarModal ES TRUE -->
+  <!-- MODAL -->
   <div class="modal-bg" *ngIf="mostrarModal">
     <div class="modal-card">
       <button class="cerrar" (click)="cerrarModal()">Cerrar</button>
@@ -52,21 +64,50 @@
 
       <p><strong>ID Tarjeta:</strong> {{ tarjetaSeleccionada?.idTarjeta }}</p>
       <p><strong>Número:</strong> {{ tarjetaSeleccionada?.numTarjeta }}</p>
-      <p><strong>Usuario:</strong> {{ tarjetaSeleccionada?.nombre }} {{ tarjetaSeleccionada?.apellidoPaterno || '' }} {{ tarjetaSeleccionada?.apellidoMaterno || '' }}</p>
+
+      <p>
+        <strong>Usuario:</strong> 
+        {{ tarjetaSeleccionada?.nombre }} 
+        {{ tarjetaSeleccionada?.apellidoPaterno || '' }} 
+        {{ tarjetaSeleccionada?.apellidoMaterno || '' }}
+      </p>
+
       <p><strong>Nombre de usuario:</strong> {{ tarjetaSeleccionada?.nombreUsuario }}</p>
       <p><strong>Correo:</strong> {{ tarjetaSeleccionada?.correo }}</p>
       <p><strong>Tipo:</strong> {{ tarjetaSeleccionada?.tipo }}</p>
+
       <p>
         <strong>Status:</strong>
-        <span [ngClass]="{ 'status-activa': (tarjetaSeleccionada?.status | lowercase) === 'activa', 'status-inactiva': (tarjetaSeleccionada?.status | lowercase) !== 'activa' }">{{ tarjetaSeleccionada?.status }}</span>
+        <span 
+          [ngClass]="{
+            'status-activa': (tarjetaSeleccionada?.status | lowercase) === 'activa',
+            'status-inactiva': (tarjetaSeleccionada?.status | lowercase) !== 'activa'
+          }"
+        >
+          {{ tarjetaSeleccionada?.status }}
+        </span>
       </p>
+
       <p><strong>Saldo:</strong> ${{ tarjetaSeleccionada?.saldo }}</p>
       <p><strong>Fecha emisión:</strong> {{ tarjetaSeleccionada?.fechaEmision }}</p>
       <p><strong>Fecha vencimiento:</strong> {{ tarjetaSeleccionada?.fechaVencimiento }}</p>
 
       <div class="acciones-beneficio">
-        <button class="btn-azul" *ngIf="tarjetaSeleccionada?.status === 'ACTIVA' || tarjetaSeleccionada?.status === 'activa'" (click)="desactivarTarjeta(tarjetaSeleccionada?.idTarjeta || '')">Suspender tarjeta</button>
-        <button class="btn-amarillo" *ngIf="tarjetaSeleccionada?.status !== 'ACTIVA' && tarjetaSeleccionada?.status !== 'activa'" (click)="reactivarTarjeta(tarjetaSeleccionada?.idTarjeta || '')">Reactivar tarjeta</button>
+        <button 
+          class="btn-azul" 
+          *ngIf="tarjetaSeleccionada?.status === 'ACTIVA' || tarjetaSeleccionada?.status === 'activa'" 
+          (click)="desactivarTarjeta(tarjetaSeleccionada?.idTarjeta || '')"
+        >
+          Suspender tarjeta
+        </button>
+
+        <button 
+          class="btn-amarillo" 
+          *ngIf="tarjetaSeleccionada?.status !== 'ACTIVA' && tarjetaSeleccionada?.status !== 'activa'" 
+          (click)="reactivarTarjeta(tarjetaSeleccionada?.idTarjeta || '')"
+        >
+          Reactivar tarjeta
+        </button>
       </div>
 
     </div>

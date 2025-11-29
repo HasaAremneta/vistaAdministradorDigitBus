@@ -28,22 +28,22 @@
         <thead>
           <tr>
             <th>ID</th>
-            <th>Nombre completo</th>
             <th>Usuario</th>
-            <th>Fecha de alta</th>
+            <th>Acciones</th>
           </tr>
         </thead>
 
         <tbody>
           <tr *ngFor="let a of administradoresFiltrados">
             <td class="link-id">{{ a.id }}</td>
-            <td>{{ a.nombre }}</td>
             <td>{{ a.username }}</td>
-            <td>{{ a.creadoEl }}</td>
+            <td>
+              <button class="btn-eliminar" (click)="eliminarAdmin(a.id)">Eliminar</button>
+            </td>
           </tr>
 
           <tr *ngIf="administradoresFiltrados.length === 0">
-            <td colspan="4" class="no-result">
+            <td colspan="5" class="no-result">
               No se encontraron administradores.
             </td>
           </tr>

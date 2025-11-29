@@ -12,7 +12,7 @@ def home():
 
 # ------------------------------------
 #  Endpoint para usuarios
-# ------------------------------------
+
 @app.post('/register')
 def register():
     data = request.get_json()
@@ -23,7 +23,6 @@ def register():
     if not username or not password:
         return jsonify({"error": "username y password son obligatorios"}), 400
 
-    # 🔐 Encriptar contraseña con bcrypt
     hashed_pass = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
     conn = get_connection()
@@ -58,16 +57,158 @@ def get_users():
         if not rows_fetched:
             return jsonify({"error": "No hay usuarios registrados"}), 404
 
-        # Obtener nombres de columnas
         columns = [col[0] for col in cursor.description]
 
-        # Convertir a lista de diccionarios
         rows = [dict(zip(columns, row)) for row in rows_fetched]
 
         return jsonify(rows), 200
 
     except Exception as e:
         return jsonify({"error": "Error al obtener usuarios", "details": str(e)}), 500
+
+    finally:
+        cursor.close()
+        conn.close()
+
+
+
+@app.put('/users/update/<int:user_id>')
+def update_user(user_id):
+    data = request.get_json()
+
+    nombre = data.get("nombre")
+    apellido_p = data.get("apellido_paterno")
+    apellido_m = data.get("apellido_materno")
+    nombre_usuario = data.get("nombre_usuario")
+    correo = data.get("correo")
+    nueva_password = data.get("password") 
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    try:
+        
+        cursor.execute("SELECT IDPERSONAL FROM PERSONAL WHERE IDPERSONAL = ?", (user_id,))
+        personal = cursor.fetchone()
+
+        if not personal:
+            return jsonify({"error": "Usuario no encontrado"}), 404
+
+        cursor.execute("""
+            SELECT IDPERSONAL 
+            FROM PERSONAL 
+            WHERE NOMBREUSUARIO = ? AND IDPERSONAL <> ?
+        """, (nombre_usuario, user_id))
+        if cursor.fetchone():
+            return jsonify({"error": "El nombre de usuario ya está registrado"}), 409
+
+        
+        cursor.execute("""
+            SELECT IDPERSONAL
+            FROM PERSONAL
+            WHERE CORREO = ? AND IDPERSONAL <> ?
+        """, (correo, user_id))
+        if cursor.fetchone():
+            return jsonify({"error": "El correo ya está registrado"}), 409
+
+        
+        cursor.execute("""
+            SELECT IDUSUARIOS 
+            FROM USUARIOS 
+            WHERE NOMBREUSUARIO = ? AND IDUSUARIOS <> ?
+        """, (nombre_usuario, user_id))
+        if cursor.fetchone():
+            return jsonify({"error": "El nombre de usuario ya existe en cuentas del sistema"}), 409
+
+        
+        cursor.execute("""
+            UPDATE PERSONAL
+            SET 
+                NOMBRE = ?, 
+                APELLIDOPATERNO = ?, 
+                APELLIDOMATERNO = ?, 
+                NOMBREUSUARIO = ?, 
+                CORREO = ?
+            WHERE IDPERSONAL = ?
+        """, (nombre, apellido_p, apellido_m, nombre_usuario, correo, user_id))
+
+        
+        if nueva_password:
+            hashed_pass = bcrypt.hashpw(nueva_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+
+            cursor.execute("""
+                UPDATE USUARIOS
+                SET 
+                    NOMBREUSUARIO = ?, 
+                    PASSWORD = ?
+                WHERE IDUSUARIOS = ?
+            """, (nombre_usuario, hashed_pass, user_id))
+
+        else:
+            cursor.execute("""
+                UPDATE USUARIOS
+                SET 
+                    NOMBREUSUARIO = ?
+                WHERE IDUSUARIOS = ?
+            """, (nombre_usuario, user_id))
+
+        conn.commit()
+
+        return jsonify({"message": "Usuario actualizado correctamente"}), 200
+
+    except Exception as e:
+        return jsonify({
+            "error": "Error al actualizar usuario",
+            "details": str(e)
+        }), 500
+
+    finally:
+        cursor.close()
+        conn.close()
+
+
+
+@app.get('/users/admin')
+def get_users_admin():
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("SELECT IDUSUARIOS, NOMBREUSUARIO FROM USUARIOS WHERE IS_ADMIN = 1")
+        rows_fetched = cursor.fetchall()
+
+        if not rows_fetched:
+            return jsonify({"error": "No hay usuarios registrados"}), 404
+
+        columns = [col[0] for col in cursor.description]
+
+        rows = [dict(zip(columns, row)) for row in rows_fetched]
+
+        return jsonify(rows), 200
+
+    except Exception as e:
+        return jsonify({"error": "Error al obtener usuarios", "details": str(e)}), 500
+
+    finally:
+        cursor.close()
+        conn.close()
+
+@app.delete('/users/<int:user_id>')
+def delete_user(user_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("DELETE FROM USUARIOS WHERE IDUSUARIOS = ?", (user_id,))
+        conn.commit()
+
+        if cursor.rowcount == 0:
+            return jsonify({"error": "Usuario no encontrado"}), 404
+
+        return jsonify({"message": "Usuario eliminado correctamente"}), 200
+
+    except Exception as e:
+        return jsonify({"error": "Error al eliminar usuario", "details": str(e)}), 500
 
     finally:
         cursor.close()
@@ -87,10 +228,8 @@ def get_user(name):
         if not row:
             return jsonify({"error": "Usuario no encontrado"}), 404
 
-        # Obtener nombres de columnas
         columns = [col[0] for col in cursor.description]
 
-        # Convertir a diccionario
         user = dict(zip(columns, row))
 
         return jsonify(user), 200
@@ -115,10 +254,8 @@ def get_user_tarjetas():
         if not rows_fetched:
             return jsonify({"error": "No hay tarjetas "}), 404
 
-        # Obtener nombres de columnas
         columns = [col[0] for col in cursor.description]
 
-        # Convertir a lista de diccionarios
         rows = [dict(zip(columns, row)) for row in rows_fetched]
 
         return jsonify(rows), 200
@@ -144,10 +281,8 @@ def get_user_tarjetasu(user_id):
         if not rows_fetched:
             return jsonify({"error": "No hay tarjetas asociadas a este usuario"}), 404
 
-        # Obtener nombres de columnas
         columns = [col[0] for col in cursor.description]
 
-        # Convertir a lista de diccionarios
         rows = [dict(zip(columns, row)) for row in rows_fetched]
 
         return jsonify(rows), 200
@@ -202,9 +337,46 @@ def activate_card(card_id):
     finally:
         cursor.close()
         conn.close()
+
+
+@app.post('/users/admin')
+def create_users_admin():
+    data = request.get_json()
+
+    username = data.get("username")
+    password = data.get("password")
+
+    if not username or not password:
+        return jsonify({"error": "username y password son obligatorios"}), 400
+
+    hashed_pass = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("SELECT IDUSUARIOS FROM USUARIOS WHERE NOMBREUSUARIO = ?", (username,))
+        if cursor.fetchone():
+            return jsonify({"error": "El nombre de usuario ya existe"}), 409
+
+        # Insertar usuario administrador (IS_ADMIN = 1)
+        cursor.execute("""
+            INSERT INTO USUARIOS (NOMBREUSUARIO, PASSWORD, IS_ADMIN)
+            VALUES (?, ?, 1)
+        """, (username, hashed_pass))
+
+        conn.commit()
+        return jsonify({"message": "Usuario administrador creado correctamente"}), 201
+
+    except Exception as e:
+        return jsonify({"error": "Error al crear usuario administrador", "details": str(e)}), 500
+
+    finally:
+        cursor.close()
+        conn.close()
+
 # ------------------------------------
 #  Endpoint de login
-# ------------------------------------
 @app.post('/login')
 def login():
     data = request.get_json()
@@ -218,12 +390,11 @@ def login():
     conn = get_connection()
     cursor = conn.cursor()
 
-    # 🔎 Buscar el hash en la BD
     cursor.execute("SELECT PASSWORD, IS_ADMIN FROM USUARIOS WHERE NOMBREUSUARIO = ?", (username,))
     row = cursor.fetchone()
 
     stored_hash = row[0]
-    is_admin = row[1]  # 0 o 1
+    is_admin = row[1]  
 
 
     if not row:
@@ -231,11 +402,9 @@ def login():
 
     stored_hash = row[0]
 
-    # 🔐 Comparar contraseña con bcrypt
     try:
         is_valid = bcrypt.checkpw(password.encode('utf-8'), stored_hash.encode('utf-8'))
     except Exception:
-        # fallback si stored_hash no es string
         is_valid = False
 
     if is_valid:
@@ -250,24 +419,20 @@ def login():
 
 # ------------------------------------
 #  Endpoints Soliocitudes
-# ------------------------------------
 @app.get('/solicitudes')
 def solicitudes():
     try:
         conn = get_connection()
         cursor = conn.cursor()
 
-        # Ejecutar la consulta
         cursor.execute("SELECT * FROM SOLICITUDES S INNER JOIN PERSONAL P ON P.IDPERSONAL = S.IDPERSONAL")
         rows_fetched = cursor.fetchall()
 
         if not rows_fetched:
             return jsonify({"error": "Sin solicitudes registradas"}), 404
 
-        # Obtener nombres de columnas
         columns = [col[0] for col in cursor.description]
 
-        # Convertir a lista de diccionarios
         rows = [dict(zip(columns, row)) for row in rows_fetched]
 
         return jsonify(rows), 200
@@ -285,7 +450,6 @@ def delete_solicitud(solicitud_id):
         conn = get_connection()
         cursor = conn.cursor()
 
-        # Ejecutar la consulta de eliminación
         cursor.execute("DELETE FROM SOLICITUDES WHERE IDSOLICITUD = ?", (solicitud_id,))
         conn.commit()
 
@@ -307,7 +471,6 @@ def aprobar_solicitud(solicitud_id):
         conn = get_connection()
         cursor = conn.cursor()
 
-        # Actualizar el estado de la solicitud a 'Aprobada'
         cursor.execute("UPDATE SOLICITUDES SET STATUS = 'Concluida' WHERE IDSOLICITUD = ?", (solicitud_id,))
         conn.commit()
 
@@ -331,7 +494,6 @@ def rechazar_solicitud(solicitud_id):
         conn = get_connection()
         cursor = conn.cursor()
 
-        # Actualizar el estado de la solicitud a 'Rechazada'
         cursor.execute("UPDATE SOLICITUDES SET STATUS = 'Rechazada' WHERE IDSOLICITUD = ?", (solicitud_id,))
         conn.commit()
 
@@ -349,6 +511,5 @@ def rechazar_solicitud(solicitud_id):
 
 # ------------------------------------
 #  Ejecutar servidor
-# ------------------------------------
 if __name__ == '__main__':
     app.run(debug=True)

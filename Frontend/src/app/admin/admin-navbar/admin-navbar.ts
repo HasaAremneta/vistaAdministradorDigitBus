@@ -13,12 +13,11 @@ export class AdminNavbar implements OnDestroy {
 
   isSidebarOpen = false;
   currentTime: Date = new Date();
-  userName: string = localStorage.getItem('username') || 'Administrador'; // luego esto puede venir del login/backend
+  userName: string = localStorage.getItem('username') || 'Administrador';
 
   private timerId: any;
 
   constructor(private router: Router) {
-    // Actualizar hora cada segundo
     this.timerId = setInterval(() => {
       this.currentTime = new Date();
     }, 1000);
@@ -28,7 +27,6 @@ export class AdminNavbar implements OnDestroy {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
 
-  // Cerrar menú al hacer clic fuera
   @HostListener('document:click', ['$event'])
   onClickOutside(event: Event): void {
     const sidebar = document.querySelector('.admin-sidebar');
@@ -43,7 +41,6 @@ export class AdminNavbar implements OnDestroy {
   }
 
   logout(): void {
-    // Aquí luego borras token, etc.
     this.router.navigate(['/login']);
   }
 

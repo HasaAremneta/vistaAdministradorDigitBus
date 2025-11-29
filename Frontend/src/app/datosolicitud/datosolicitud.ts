@@ -21,7 +21,7 @@ interface Documento {
 })
 export class Datosolicitud implements OnChanges {
 
-  @Input() reporte: any;   // 🔑 Recibe la solicitud desde el padre
+  @Input() reporte: any;
   @Output() cerrar = new EventEmitter<void>();
   @Output() rechazar = new EventEmitter<string>();
   @Output() aceptar = new EventEmitter<void>();
@@ -45,7 +45,6 @@ export class Datosolicitud implements OnChanges {
   }
 
   private loadDocumentosFromReporte() {
-    // Normaliza distintas estructuras posibles del objeto `reporte`.
     const rawDocs = this.reporte.documentos || this.reporte.DOCUMENTOS || this.reporte.docs || this.reporte.archivos || [];
 
     if (Array.isArray(rawDocs) && rawDocs.length) {
@@ -59,7 +58,6 @@ export class Datosolicitud implements OnChanges {
       return;
     }
 
-    // Si no vienen documentos como arreglo, intenta crear algunos elementos útiles.
     const docs: any[] = [];
     if (this.reporte.refPago || this.reporte.REFPAGO) {
       docs.push({ tipo: 'Referencia de pago', nombreArchivo: this.reporte.refPago || this.reporte.REFPAGO, url: '#' });
@@ -125,7 +123,7 @@ export class Datosolicitud implements OnChanges {
       }
     });
     
-    //this.cerrarRechazo();
+    
   }
 
   aceptarSolicitud() {

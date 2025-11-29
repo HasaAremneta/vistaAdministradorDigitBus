@@ -49,13 +49,12 @@ export class Login {
           localStorage.setItem('username', username);
           
 
-          // Guardar token JWT en localStorage si viene de Flask
           if (res.token) {
             localStorage.setItem('token', res.token);
           }
 
           
-            this.router.navigate(['home']); // ruta para usuarios normales
+            this.router.navigate(['home']); 
           
         } else {
           this.errorMessage = 'Usuario o contraseña incorrectos';

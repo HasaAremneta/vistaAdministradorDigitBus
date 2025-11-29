@@ -18,7 +18,6 @@
   width: 100%;
 }
 
-/* Header (título + botón agregar) */
 .card-header {
   display: flex;
   justify-content: space-between;
@@ -44,7 +43,6 @@
   font-size: 14px;
 }
 
-/* Buscador */
 .buscador {
   margin-bottom: 16px;
   display: flex;
@@ -61,7 +59,6 @@
   min-width: 260px;
 }
 
-/* Tabla */
 .table-wrapper {
   width: 100%;
   overflow-x: auto;
@@ -93,9 +90,29 @@
   font-weight: 600;
 }
 
-/* Sin resultados */
 .no-result {
   text-align: center;
   color: #6b7280;
   padding: 16px 0;
+}
+
+.btn-eliminar {
+  background: transparent;
+  border: none;
+  color: #dc2626; 
+  cursor: pointer;
+  padding: 4px 8px;
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: 6px;
+}
+
+.btn-eliminar:hover {
+  text-decoration: underline;
+  color: #b91c1c; 
+}
+
+.btn-eliminar:focus {
+  outline: none;
+  box-shadow: none;
 }

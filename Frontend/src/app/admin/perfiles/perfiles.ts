@@ -29,8 +29,10 @@ interface TarjetaAdmin {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Perfiles implements OnInit {
-  // Datos de prueba - ahora para tarjetas
+
   tarjetas: TarjetaAdmin[] = [];
+  searchTerm: string = '';   // 👈 SE AGREGA
+
   private apiUrlTarjetasAll = 'http://127.0.0.1:5000/users/tarjetas';
 
   constructor(private http: HttpClient, private cdr: ChangeDetectorRef) {}
@@ -45,7 +47,7 @@ export class Perfiles implements OnInit {
         this.tarjetas = (data || []).map((t: any) => ({
           idTarjeta: (t.IDTARJETA != null) ? String(t.IDTARJETA) : (t.IDTARJETA || ''),
           numTarjeta: t.NUMTARJETA || t.NUMTARJETA || '',
-          tipo: t.TIPO || t.TIP0 || 'Desconocido',
+          tipo: t.TIPO || 'Desconocido',
           status: t.STATUS || 'DESCONOCIDO',
           saldo: t.SALDO || '0',
           fechaEmision: t.FECHAEMISION,
@@ -57,6 +59,7 @@ export class Perfiles implements OnInit {
           nombreUsuario: t.NOMBREUSUARIO || '',
           correo: t.CORREO || ''
         } as TarjetaAdmin));
+
         this.cdr.markForCheck();
         console.log('Tarjetas cargadas:', this.tarjetas);
       },
@@ -64,6 +67,17 @@ export class Perfiles implements OnInit {
         console.error('Error al cargar tarjetas:', err);
       }
     });
+  }
+
+  // 👇 NUEVO FILTRO
+  get tarjetasFiltradas(): TarjetaAdmin[] {
+    const term = this.searchTerm.toLowerCase().trim();
+    if (!term) return this.tarjetas;
+
+    return this.tarjetas.filter(t =>
+      t.idTarjeta.toLowerCase().includes(term) ||
+      t.numTarjeta.toLowerCase().includes(term)
+    );
   }
 
   mostrarModal = false;
@@ -79,15 +93,16 @@ export class Perfiles implements OnInit {
     this.http.put(url, {}).subscribe({
       next: () => {
         console.log('Tarjeta desactivada:', idTarjeta);
-        // Actualizar el status en la lista local
+
         if (this.tarjetaSeleccionada) {
           this.tarjetaSeleccionada.status = 'inactiva';
         }
-        // Actualizar en el arreglo de tarjetas
+
         const tarjeta = this.tarjetas.find(t => t.idTarjeta === idTarjeta);
         if (tarjeta) {
           tarjeta.status = 'inactiva';
         }
+
         this.cdr.markForCheck();
       },
       error: (err) => {
@@ -96,21 +111,21 @@ export class Perfiles implements OnInit {
     });
   }
 
-  
   reactivarTarjeta(idTarjeta: string) {
     const url = `http://127.0.0.1:5000/users/tarjeta/${idTarjeta}/activate`;
     this.http.put(url, {}).subscribe({
       next: () => {
         console.log('Tarjeta reactivada:', idTarjeta);
-        // Actualizar el status en la lista local
+
         if (this.tarjetaSeleccionada) {
           this.tarjetaSeleccionada.status = 'activa';
         }
-        // Actualizar en el arreglo de tarjetas
+
         const tarjeta = this.tarjetas.find(t => t.idTarjeta === idTarjeta);
         if (tarjeta) {
           tarjeta.status = 'activa';
         }
+
         this.cdr.markForCheck();
       },
       error: (err) => {

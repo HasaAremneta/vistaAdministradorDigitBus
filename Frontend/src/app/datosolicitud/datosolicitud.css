@@ -183,7 +183,7 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 200; /* Más alto que el modal principal */
+  z-index: 200; 
 }
 
 .modal-obs {

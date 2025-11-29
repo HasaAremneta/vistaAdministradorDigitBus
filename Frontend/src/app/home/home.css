@@ -1,6 +1,6 @@
 .admin-home-page {
-  min-height: calc(100vh - 60px); /* restamos la altura del navbar */
-  background: #e5f0ff; /* azul claro */
+  min-height: calc(100vh - 60px); 
+  background: #e5f0ff; 
   display: flex;
   justify-content: center;
   align-items: center;

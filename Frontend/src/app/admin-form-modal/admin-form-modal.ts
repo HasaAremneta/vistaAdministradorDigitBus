@@ -1,11 +1,12 @@
-import { Component, EventEmitter, output, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-admin-form-modal',
   standalone:true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, HttpClientModule],
   templateUrl: './admin-form-modal.html',
   styleUrl: './admin-form-modal.css',
 })
@@ -16,26 +17,55 @@ export class AdminFormModal {
   nombre = '';
   username = '';
   password = '';
+  loading = false;
+  errorMessage = '';
 
-   onCerrar(){
-    this.cerrar.emit()
-   }
+  constructor(private http: HttpClient) {}
 
-   onGuardar(){
+  onCerrar(){
+    this.cerrar.emit();
+  }
+
+  onGuardar(){
     if(!this.username.trim() || !this.password.trim()){
-      alert('El nombre de usuario y la contraseña son obligatorios.')
+      alert('El nombre de usuario y la contraseña son obligatorios.');
       return;
     }
 
-    this.guardar.emit({
-      nombre: this.nombre.trim() || this.username.trim(),
+    const payload = {
       username: this.username.trim(),
       password: this.password.trim()
+    };
+
+    this.loading = true;
+    this.errorMessage = '';
+
+    this.http.post<{message: string}>('http://127.0.0.1:5000/users/admin', payload).subscribe({
+      next: (res) => {
+        if(res && res.message) {
+          alert(res.message);
+        } else {
+          alert('Administrador creado correctamente.');
+        }
+
+        this.guardar.emit({
+          nombre: this.nombre.trim() || this.username.trim(),
+          username: this.username.trim(),
+          password: this.password.trim()
+        });
+
+        this.nombre = '';
+        this.username = '';
+        this.password = '';
+        this.loading = false;
+        this.onCerrar();
+      },
+      error: (err) => {
+        console.error('Error creando administrador', err);
+        this.errorMessage = 'No se pudo crear el administrador.';
+        alert(this.errorMessage);
+        this.loading = false;
+      }
     });
-
-    this.nombre = '';
-    this.username = '';
-    this.password = '';
-
-   }
+  }
 }
