@@ -40,7 +40,7 @@ export class AdminFormModal {
     this.loading = true;
     this.errorMessage = '';
 
-    this.http.post<{message: string}>('http://127.0.0.1:5000/users/admin', payload).subscribe({
+    this.http.post<{message: string}>('http://127.0.0.1:5001/users/admin', payload).subscribe({
       next: (res) => {
         if(res && res.message) {
           alert(res.message);

@@ -1,17 +1,17 @@
 <!-- NAVBAR -->
 <app-admin-navbar></app-admin-navbar>
 
-<!-- CONTENIDO -->
 <div class="admin-perfiles-page">
   <div class="card-perfiles">
 
     <!-- BUSCADOR -->
     <div class="buscador">
       <span>Buscar:</span>
-      <input 
-        type="text" 
+      <input
+        type="text"
         placeholder="Buscar por ID de tarjeta o número"
         [(ngModel)]="searchTerm"
+        (ngModelChange)="currentPage = 1"
       />
     </div>
 
@@ -37,7 +37,7 @@
             <td>{{ t.nombreUsuario }}</td>
             <td>{{ t.tipo }}</td>
             <td>
-              <span 
+              <span
                 [ngClass]="{
                   'status-activa': (t.status | lowercase) === 'activa',
                   'status-inactiva': (t.status | lowercase) !== 'activa'
@@ -49,9 +49,38 @@
             <td>${{ t.saldo }}</td>
             <td class="link-azul accion" (click)="verTarjeta(t)">Ver</td>
           </tr>
-
         </tbody>
       </table>
+    </div>
+
+    <!-- PAGINACIÓN -->
+    <div class="paginacion">
+      <div class="paginacion-info">
+        Página <strong>{{ currentPage }}</strong> de <strong>{{ totalPages }}</strong>
+      </div>
+
+      <div class="paginacion-controles">
+        <button
+          class="page-btn"
+          (click)="prevPage()"
+          [disabled]="currentPage === 1"
+        >
+          ‹ Anterior
+        </button>
+
+        <button
+          class="page-btn"
+          (click)="nextPage()"
+          [disabled]="currentPage === totalPages"
+        >
+          Siguiente ›
+        </button>
+      </div>
+
+      <div class="paginacion-size">
+        <span>Mostrar por página:</span>
+        <span class="badge">{{ pageSize }}</span>
+      </div>
     </div>
   </div>
 
@@ -66,9 +95,9 @@
       <p><strong>Número:</strong> {{ tarjetaSeleccionada?.numTarjeta }}</p>
 
       <p>
-        <strong>Usuario:</strong> 
-        {{ tarjetaSeleccionada?.nombre }} 
-        {{ tarjetaSeleccionada?.apellidoPaterno || '' }} 
+        <strong>Usuario:</strong>
+        {{ tarjetaSeleccionada?.nombre }}
+        {{ tarjetaSeleccionada?.apellidoPaterno || '' }}
         {{ tarjetaSeleccionada?.apellidoMaterno || '' }}
       </p>
 
@@ -78,7 +107,7 @@
 
       <p>
         <strong>Status:</strong>
-        <span 
+        <span
           [ngClass]="{
             'status-activa': (tarjetaSeleccionada?.status | lowercase) === 'activa',
             'status-inactiva': (tarjetaSeleccionada?.status | lowercase) !== 'activa'
@@ -93,23 +122,22 @@
       <p><strong>Fecha vencimiento:</strong> {{ tarjetaSeleccionada?.fechaVencimiento }}</p>
 
       <div class="acciones-beneficio">
-        <button 
-          class="btn-azul" 
-          *ngIf="tarjetaSeleccionada?.status === 'ACTIVA' || tarjetaSeleccionada?.status === 'activa'" 
+        <button
+          class="btn-azul"
+          *ngIf="tarjetaSeleccionada?.status === 'ACTIVA' || tarjetaSeleccionada?.status === 'activa'"
           (click)="desactivarTarjeta(tarjetaSeleccionada?.idTarjeta || '')"
         >
           Suspender tarjeta
         </button>
 
-        <button 
-          class="btn-amarillo" 
-          *ngIf="tarjetaSeleccionada?.status !== 'ACTIVA' && tarjetaSeleccionada?.status !== 'activa'" 
+        <button
+          class="btn-amarillo"
+          *ngIf="tarjetaSeleccionada?.status !== 'ACTIVA' && tarjetaSeleccionada?.status !== 'activa'"
           (click)="reactivarTarjeta(tarjetaSeleccionada?.idTarjeta || '')"
         >
           Reactivar tarjeta
         </button>
       </div>
-
     </div>
   </div>
 </div>

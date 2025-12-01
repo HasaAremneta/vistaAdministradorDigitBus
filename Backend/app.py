@@ -87,40 +87,33 @@ def update_user(user_id):
     cursor = conn.cursor()
 
     try:
-        
-        cursor.execute("SELECT IDPERSONAL FROM PERSONAL WHERE IDPERSONAL = ?", (user_id,))
-        personal = cursor.fetchone()
+        # Buscar al usuario del sistema (USUARIOS) por IDUSUARIOS
+        cursor.execute("""
+            SELECT IDUSUARIOS, NOMBREUSUARIO 
+            FROM USUARIOS 
+            WHERE IDUSUARIOS = ?
+        """, (user_id,))
+        usuario_row = cursor.fetchone()
 
-        if not personal:
-            return jsonify({"error": "Usuario no encontrado"}), 404
+        if not usuario_row:
+            return jsonify({"error": "Usuario del sistema no encontrado"}), 404
 
+        old_username = usuario_row[1]
+
+        # Buscar el registro en PERSONAL ligado por el usuario viejo
         cursor.execute("""
             SELECT IDPERSONAL 
             FROM PERSONAL 
-            WHERE NOMBREUSUARIO = ? AND IDPERSONAL <> ?
-        """, (nombre_usuario, user_id))
-        if cursor.fetchone():
-            return jsonify({"error": "El nombre de usuario ya está registrado"}), 409
+            WHERE NOMBREUSUARIO = ?
+        """, (old_username,))
+        personal_row = cursor.fetchone()
 
-        
-        cursor.execute("""
-            SELECT IDPERSONAL
-            FROM PERSONAL
-            WHERE CORREO = ? AND IDPERSONAL <> ?
-        """, (correo, user_id))
-        if cursor.fetchone():
-            return jsonify({"error": "El correo ya está registrado"}), 409
+        if not personal_row:
+            return jsonify({"error": "Registro de PERSONAL no encontrado para este usuario"}), 404
 
-        
-        cursor.execute("""
-            SELECT IDUSUARIOS 
-            FROM USUARIOS 
-            WHERE NOMBREUSUARIO = ? AND IDUSUARIOS <> ?
-        """, (nombre_usuario, user_id))
-        if cursor.fetchone():
-            return jsonify({"error": "El nombre de usuario ya existe en cuentas del sistema"}), 409
+        id_personal = personal_row[0]
 
-        
+        # ACTUALIZAR PERSONAL
         cursor.execute("""
             UPDATE PERSONAL
             SET 
@@ -130,12 +123,11 @@ def update_user(user_id):
                 NOMBREUSUARIO = ?, 
                 CORREO = ?
             WHERE IDPERSONAL = ?
-        """, (nombre, apellido_p, apellido_m, nombre_usuario, correo, user_id))
+        """, (nombre, apellido_p, apellido_m, nombre_usuario, correo, id_personal))
 
-        
+        # ACTUALIZAR USUARIOS
         if nueva_password:
             hashed_pass = bcrypt.hashpw(nueva_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
-
             cursor.execute("""
                 UPDATE USUARIOS
                 SET 
@@ -143,7 +135,6 @@ def update_user(user_id):
                     PASSWORD = ?
                 WHERE IDUSUARIOS = ?
             """, (nombre_usuario, hashed_pass, user_id))
-
         else:
             cursor.execute("""
                 UPDATE USUARIOS
@@ -425,7 +416,18 @@ def solicitudes():
         conn = get_connection()
         cursor = conn.cursor()
 
-        cursor.execute("SELECT * FROM SOLICITUDES S INNER JOIN PERSONAL P ON P.IDPERSONAL = S.IDPERSONAL")
+        cursor.execute("""
+            SELECT 
+                S.*,
+                P.*,
+                D.TARJETAS,
+                D.CONSTANCIA,
+                D.VAUCHES
+            FROM SOLICITUDES S
+            INNER JOIN PERSONAL P ON P.IDPERSONAL = S.IDPERSONAL
+            LEFT JOIN DOCUMENTACION D ON D.IDSOLICITUD = S.IDSOLICITUD
+        """)
+        
         rows_fetched = cursor.fetchall()
 
         if not rows_fetched:
@@ -512,4 +514,4 @@ def rechazar_solicitud(solicitud_id):
 # ------------------------------------
 #  Ejecutar servidor
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="127.0.0.1", port=5001, debug=True)

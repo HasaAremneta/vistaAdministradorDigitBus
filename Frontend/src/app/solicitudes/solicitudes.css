@@ -99,3 +99,66 @@ h2 {
 .accion {
   font-weight: 500;
 }
+.paginacion {
+  margin-top: 12px;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border-top: 1px solid #e5e7eb;
+  background: #f9fafb;
+  border-radius: 0 0 1rem 1rem;
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+.paginacion-info {
+  font-weight: 500;
+}
+
+.paginacion-controles {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.page-btn {
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  font-size: 0.85rem;
+  color: #374151;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+
+.page-btn:hover:not(:disabled) {
+  background: #eff6ff;
+  border-color: #3b82f6;
+  transform: translateY(-1px);
+}
+
+.page-btn:disabled {
+  cursor: default;
+  opacity: 0.45;
+  background: #f3f4f6;
+}
+
+.paginacion-size {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-left: 1rem;
+  white-space: nowrap;
+}
+
+.paginacion-size .badge {
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  background: #e5f3ff;
+  color: #1d4ed8;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+

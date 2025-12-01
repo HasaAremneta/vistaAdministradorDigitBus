@@ -45,12 +45,32 @@
       </table>
     </div>
 
-    <div class="paginacion" style="margin-top:12px; display:flex; align-items:center; gap:8px;">
-      <button (click)="prevPage()" [disabled]="currentPage === 1">Prev</button>
-      <span>Pagina {{ currentPage }} de {{ totalPages }}</span>
-      <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
-      <div style="margin-left:auto;">
-        <label style="font-size:0.9em; color:#666;">Mostrar por página: {{ pageSize }}</label>
+    <div class="paginacion">
+      <div class="paginacion-info">
+        Página <strong>{{ currentPage }}</strong> de <strong>{{ totalPages }}</strong>
+      </div>
+
+      <div class="paginacion-controles">
+        <button
+          class="page-btn"
+          (click)="prevPage()"
+          [disabled]="currentPage === 1"
+        >
+          ‹ Anterior
+        </button>
+
+        <button
+          class="page-btn"
+          (click)="nextPage()"
+          [disabled]="currentPage === totalPages"
+        >
+          Siguiente ›
+        </button>
+      </div>
+
+      <div class="paginacion-size">
+        <span>Mostrar por página:</span>
+        <span class="badge">{{ pageSize }}</span>
       </div>
     </div>
   </div>

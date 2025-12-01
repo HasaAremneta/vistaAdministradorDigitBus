@@ -33,7 +33,11 @@ export class Perfiles implements OnInit {
   tarjetas: TarjetaAdmin[] = [];
   searchTerm: string = '';   // 👈 SE AGREGA
 
-  private apiUrlTarjetasAll = 'http://127.0.0.1:5000/users/tarjetas';
+  // paginación
+  pageSize = 7;
+  currentPage = 1;
+
+  private apiUrlTarjetasAll = 'http://127.0.0.1:5001/users/tarjetas';
 
   constructor(private http: HttpClient, private cdr: ChangeDetectorRef) {}
 
@@ -60,6 +64,7 @@ export class Perfiles implements OnInit {
           correo: t.CORREO || ''
         } as TarjetaAdmin));
 
+        this.currentPage = 1;
         this.cdr.markForCheck();
         console.log('Tarjetas cargadas:', this.tarjetas);
       },
@@ -70,7 +75,7 @@ export class Perfiles implements OnInit {
   }
 
   // 👇 NUEVO FILTRO
-  get tarjetasFiltradas(): TarjetaAdmin[] {
+  private get tarjetasFiltradasAll(): TarjetaAdmin[] {
     const term = this.searchTerm.toLowerCase().trim();
     if (!term) return this.tarjetas;
 
@@ -78,6 +83,29 @@ export class Perfiles implements OnInit {
       t.idTarjeta.toLowerCase().includes(term) ||
       t.numTarjeta.toLowerCase().includes(term)
     );
+  }
+  
+  get totalPages(): number {
+    const total = this.tarjetasFiltradasAll.length;
+    return total ? Math.ceil(total / this.pageSize) : 1;
+  }
+
+  get tarjetasFiltradas(): TarjetaAdmin[] {
+    const start = (this.currentPage - 1) * this.pageSize;
+    const end = start + this.pageSize;
+    return this.tarjetasFiltradasAll.slice(start, end);
+  }
+
+  prevPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+    }
   }
 
   mostrarModal = false;
@@ -89,7 +117,7 @@ export class Perfiles implements OnInit {
   }
 
   desactivarTarjeta(idTarjeta: string) {
-    const url = `http://127.0.0.1:5000/users/tarjeta/${idTarjeta}/deactivate`;
+    const url = `http://127.0.0.1:5001/users/tarjeta/${idTarjeta}/deactivate`;
     this.http.put(url, {}).subscribe({
       next: () => {
         console.log('Tarjeta desactivada:', idTarjeta);
@@ -112,7 +140,7 @@ export class Perfiles implements OnInit {
   }
 
   reactivarTarjeta(idTarjeta: string) {
-    const url = `http://127.0.0.1:5000/users/tarjeta/${idTarjeta}/activate`;
+    const url = `http://127.0.0.1:5001/users/tarjeta/${idTarjeta}/activate`;
     this.http.put(url, {}).subscribe({
       next: () => {
         console.log('Tarjeta reactivada:', idTarjeta);

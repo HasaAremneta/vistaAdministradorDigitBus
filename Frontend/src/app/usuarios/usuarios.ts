@@ -41,9 +41,9 @@ export class Usuarios implements OnInit {
   searchTerm = '';
   usuarios: Usuario[] = [];
 
-  private apiUrlUsuarios = 'http://localhost:5000/users';
-  private apiUrlDetalleUsuario = 'http://localhost:5000/users';
-  private apiUrlTarjetas = 'http://localhost:5000/users/tarjetas';
+  private apiUrlUsuarios = 'http://localhost:5001/users';
+  private apiUrlDetalleUsuario = 'http://localhost:5001/users';
+  private apiUrlTarjetas = 'http://localhost:5001/users/tarjetas';
 
   mostrarPerfil = false;
   usuarioSeleccionado: Usuario | null = null;
@@ -123,7 +123,7 @@ export class Usuarios implements OnInit {
   }
 
   guardarPerfil(payload: any) {
-    const url = `http://localhost:5000/users/update/${payload.id}`;
+    const url = `http://localhost:5001/users/update/${payload.id}`;
 
     this.http.put(url, payload).subscribe({
       next: (resp) => {

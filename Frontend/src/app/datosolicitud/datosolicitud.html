@@ -19,15 +19,23 @@
     <div class="docs-section" style="margin-top:12px;">
       <h4>Documentos adjuntos</h4>
       <div *ngIf="!documentos || documentos.length === 0" style="color:#6b7280;">No hay documentos adjuntos.</div>
-      <div *ngFor="let doc of documentos" class="doc-row">
-        <div class="doc-info">
-          <span class="doc-tipo">{{ doc.tipo }}</span>
-          <a class="doc-link" [href]="doc.url" target="_blank">{{ doc.nombreArchivo }}</a>
+        <div *ngFor="let doc of documentos" class="doc-row">
+          <div class="doc-info">
+            <span class="doc-tipo">{{ doc.tipo }}</span>
+            <a class="doc-link" [href]="doc.url" [attr.download]="doc.nombreArchivo" target="_blank">{{ doc.nombreArchivo }}</a>
+          </div>
+          <div *ngIf="isImage(doc)" style="margin-top: 4px;">
+            <img [src]="doc.url" style="max-width: 280px; max-height: 200px; border: 1px solid #ddd;">
+          </div>
+
+          <div *ngIf="isPdf(doc)" style="margin-top: 4px;">
+            <iframe [src]="doc.url"
+                    style="width: 280px; height: 200px; border: 1px solid #ddd;"></iframe>
+          </div>
+          <div>
+            <button class="btn-outline" (click)="abrirObservaciones(doc)">Observaciones</button>
+          </div>
         </div>
-        <div>
-          <button class="btn-outline" (click)="abrirObservaciones(doc)">Observaciones</button>
-        </div>
-      </div>
     </div>
 
     <div class="footer">

@@ -35,7 +35,7 @@ export class Solicitudes implements OnInit {
   pageSize = 7;
   currentPage = 1;
 
-  private apiUrl = 'http://localhost:5000/solicitudes';
+  private apiUrl = 'http://localhost:5001/solicitudes';
 
   constructor(
     private router: Router,
@@ -50,6 +50,9 @@ export class Solicitudes implements OnInit {
     this.http.get<any[]>(this.apiUrl).subscribe({
       next: (data) => {
         this.reportes = data.map((r) => ({
+
+          ...r,
+
           id: r.IDSOLICITUD?.toString() || '',
           nombreUsuario: r.NOMBREUSUARIO || '',
           nombreCompleto: `${r.NOMBRE || ''} ${r.APELLIDOPATERNO || ''} ${r.APELLIDOMATERNO || ''}`,

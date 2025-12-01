@@ -69,7 +69,7 @@ export class Administradores {
   loadAdministradores(): Observable<any[]> {
     this.loading = true;
     this.errorMessage = '';
-    return this.http.get<any[]>('http://localhost:5000/users/admin');
+    return this.http.get<any[]>('http://localhost:5001/users/admin');
   }
 
   private handleLoad(data: any[]) {
@@ -95,7 +95,7 @@ export class Administradores {
     if (!confirmDelete) return;
     this.loading = true;
     this.errorMessage = '';
-    this.http.delete(`http://localhost:5000/users/${id}`).subscribe({
+    this.http.delete(`http://localhost:5001/users/${id}`).subscribe({
       next: () => {
         console.log(`Administrador ${id} eliminado.`);
         this.loadAdministradores().subscribe({
